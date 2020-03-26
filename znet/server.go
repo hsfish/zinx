@@ -2,23 +2,11 @@ package znet
 
 import (
 	"fmt"
+	"net"
+
 	"github.com/aceld/zinx/utils"
 	"github.com/aceld/zinx/ziface"
-	"net"
 )
-
-var zinxLogo = `                                        
-              ██                        
-              ▀▀                        
- ████████   ████     ██▄████▄  ▀██  ██▀ 
-     ▄█▀      ██     ██▀   ██    ████   
-   ▄█▀        ██     ██    ██    ▄██▄   
- ▄██▄▄▄▄▄  ▄▄▄██▄▄▄  ██    ██   ▄█▀▀█▄  
- ▀▀▀▀▀▀▀▀  ▀▀▀▀▀▀▀▀  ▀▀    ▀▀  ▀▀▀  ▀▀▀ 
-                                        `
-var topLine = `┌───────────────────────────────────────────────────┐`
-var borderLine = `│`
-var bottomLine = `└───────────────────────────────────────────────────┘`
 
 //iServer 接口实现，定义一个Server服务类
 type Server struct {
@@ -166,16 +154,4 @@ func (s *Server) CallOnConnStop(conn ziface.IConnection) {
 		fmt.Println("---> CallOnConnStop....")
 		s.OnConnStop(conn)
 	}
-}
-
-func init() {
-	fmt.Println(zinxLogo)
-	fmt.Println(topLine)
-	fmt.Println(fmt.Sprintf("%s [Github] https://github.com/aceld                 %s", borderLine, borderLine))
-	fmt.Println(fmt.Sprintf("%s [tutorial] https://www.jianshu.com/p/23d07c0a28e5 %s", borderLine, borderLine))
-	fmt.Println(bottomLine)
-	fmt.Printf("[Zinx] Version: %s, MaxConn: %d, MaxPacketSize: %d\n",
-		utils.GlobalObject.Version,
-		utils.GlobalObject.MaxConn,
-		utils.GlobalObject.MaxPacketSize)
 }
