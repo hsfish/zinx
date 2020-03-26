@@ -9,10 +9,11 @@
 package ztimer
 
 import (
-	"github.com/aceld/zinx/zlog"
 	"math"
 	"sync"
 	"time"
+
+	"github.com/hsfish/zinx/zlog"
 )
 
 const (

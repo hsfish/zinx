@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"net"
 
-	"github.com/aceld/zinx/utils"
-	"github.com/aceld/zinx/ziface"
+	"github.com/hsfish/zinx/utils"
+	"github.com/hsfish/zinx/ziface"
 )
 
 //iServer 接口实现，定义一个Server服务类

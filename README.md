@@ -25,7 +25,7 @@ Zinx 是一个基于Golang的轻量级并发服务器框架
 ---
 ## zinx源码地址
 ### Github
-Git: https://github.com/aceld/zinx
+Git: https://github.com/hsfish/zinx
 
 ### 码云(Gitee)
 Git: https://gitee.com/Aceld/zinx
@@ -102,8 +102,8 @@ func main() {
 ```go
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
-	"github.com/aceld/zinx/znet"
+	"github.com/hsfish/zinx/ziface"
+	"github.com/hsfish/zinx/znet"
 )
 
 //ping test 自定义路由
@@ -134,7 +134,7 @@ import (
 	"io"
 	"net"
 	"time"
-	"github.com/aceld/zinx/znet"
+	"github.com/hsfish/zinx/znet"
 )
 
 /*

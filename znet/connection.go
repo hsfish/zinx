@@ -3,11 +3,12 @@ package znet
 import (
 	"errors"
 	"fmt"
-	"github.com/aceld/zinx/utils"
-	"github.com/aceld/zinx/ziface"
 	"io"
 	"net"
 	"sync"
+
+	"github.com/hsfish/zinx/utils"
+	"github.com/hsfish/zinx/ziface"
 )
 
 type Connection struct {

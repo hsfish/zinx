@@ -2,11 +2,12 @@ package znet
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/ziface"
 	"io"
 	"net"
 	"testing"
 	"time"
+
+	"github.com/hsfish/zinx/ziface"
 )
 
 // run in terminal:

@@ -8,9 +8,10 @@ package ztimer
 import (
 	"errors"
 	"fmt"
-	"github.com/aceld/zinx/zlog"
 	"sync"
 	"time"
+
+	"github.com/hsfish/zinx/zlog"
 )
 
 /*

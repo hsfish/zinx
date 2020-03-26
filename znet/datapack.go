@@ -4,8 +4,9 @@ import (
 	"bytes"
 	"encoding/binary"
 	"errors"
-	"github.com/aceld/zinx/utils"
-	"github.com/aceld/zinx/ziface"
+
+	"github.com/hsfish/zinx/utils"
+	"github.com/hsfish/zinx/ziface"
 )
 
 //封包拆包类实例，暂时不需要成员

@@ -9,9 +9,10 @@ package ztimer
 
 import (
 	"fmt"
-	"github.com/aceld/zinx/zlog"
 	"testing"
 	"time"
+
+	"github.com/hsfish/zinx/zlog"
 )
 
 //触发函数
