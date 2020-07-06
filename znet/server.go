@@ -47,59 +47,55 @@ func NewServer() ziface.IServer {
 //============== 实现 ziface.IServer 里的全部接口方法 ========
 
 //开启网络服务
-func (s *Server) Start() {
+func (s *Server) Start() error {
 	fmt.Printf("[START] Server name: %s,listenner at IP: %s, Port %d is starting\n", s.Name, s.IP, s.Port)
 
 	//开启一个go去做服务端Linster业务
-	go func() {
-		//0 启动worker工作池机制
-		s.msgHandler.StartWorkerPool()
+	//0 启动worker工作池机制
+	s.msgHandler.StartWorkerPool()
 
-		//1 获取一个TCP的Addr
-		addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))
+	//1 获取一个TCP的Addr
+	addr, err := net.ResolveTCPAddr(s.IPVersion, fmt.Sprintf("%s:%d", s.IP, s.Port))
+	if err != nil {
+		return err
+	}
+
+	//2 监听服务器地址
+	listener, err := net.ListenTCP(s.IPVersion, addr)
+	if err != nil {
+		return err
+	}
+
+	//已经监听成功
+	fmt.Println("start Zinx server  ", s.Name, " succ, now listenning...")
+
+	//TODO server.go 应该有一个自动生成ID的方法
+	var cid uint32
+	cid = 0
+
+	//3 启动server网络连接业务
+	for {
+		//3.1 阻塞等待客户端建立连接请求
+		conn, err := listener.AcceptTCP()
 		if err != nil {
-			fmt.Println("resolve tcp addr err: ", err)
-			return
+			fmt.Println("Accept err ", err)
+			continue
+		}
+		fmt.Println("Get conn remote addr = ", conn.RemoteAddr().String())
+
+		//3.2 设置服务器最大连接控制,如果超过最大连接，那么则关闭此新的连接
+		if s.ConnMgr.Len() >= utils.GlobalObject.MaxConn {
+			conn.Close()
+			continue
 		}
 
-		//2 监听服务器地址
-		listener, err := net.ListenTCP(s.IPVersion, addr)
-		if err != nil {
-			fmt.Println("listen", s.IPVersion, "err", err)
-			return
-		}
+		//3.3 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
+		dealConn := NewConntion(s, conn, cid, s.msgHandler)
+		cid++
 
-		//已经监听成功
-		fmt.Println("start Zinx server  ", s.Name, " succ, now listenning...")
-
-		//TODO server.go 应该有一个自动生成ID的方法
-		var cid uint32
-		cid = 0
-
-		//3 启动server网络连接业务
-		for {
-			//3.1 阻塞等待客户端建立连接请求
-			conn, err := listener.AcceptTCP()
-			if err != nil {
-				fmt.Println("Accept err ", err)
-				continue
-			}
-			fmt.Println("Get conn remote addr = ", conn.RemoteAddr().String())
-
-			//3.2 设置服务器最大连接控制,如果超过最大连接，那么则关闭此新的连接
-			if s.ConnMgr.Len() >= utils.GlobalObject.MaxConn {
-				conn.Close()
-				continue
-			}
-
-			//3.3 处理该新连接请求的 业务 方法， 此时应该有 handler 和 conn是绑定的
-			dealConn := NewConntion(s, conn, cid, s.msgHandler)
-			cid++
-
-			//3.4 启动当前链接的处理业务
-			go dealConn.Start()
-		}
-	}()
+		//3.4 启动当前链接的处理业务
+		go dealConn.Start()
+	}
 }
 
 //停止服务
