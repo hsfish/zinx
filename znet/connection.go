@@ -106,7 +106,7 @@ func (c *Connection) StartReader() {
 			fmt.Println("read msg head error ", err)
 			break
 		}
-		//fmt.Printf("read headData %+v\n", headData)
+		fmt.Printf("read headData %+v\n", headData)
 
 		//拆包，得到msgid 和 datalen 放在msg中
 		msg, err := dp.Unpack(headData)
@@ -114,6 +114,7 @@ func (c *Connection) StartReader() {
 			fmt.Println("unpack error ", err)
 			break
 		}
+		fmt.Printf("MsgID: [%d] DataLen：[%d]\n", msg.GetMsgId(), msg.GetDataLen())
 
 		//根据 dataLen 读取 data，放在msg.Data中
 		var data []byte
@@ -124,6 +125,7 @@ func (c *Connection) StartReader() {
 				break
 			}
 		}
+		fmt.Printf("Msg：[%s]\n", string(data))
 		msg.SetData(data)
 
 		//得到当前客户端请求的Request数据
